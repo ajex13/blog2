@@ -27,7 +27,9 @@
       <li><a href="#">Github</a></li>
       <li><a href="#">Email</a></li>
     </ul>
-      <p class="sign_in">Admin Login</p>
+    <% if !user_signed_in? %>
+      <p class="sign_in"><%= link_to "Admin Login", new_user_session_path %></p>
+    <% end %>
   </div>
     <div id="main_content">
       <div id="header">
@@ -38,14 +40,17 @@
         <% else %>
             <p><%= link_to "Back", root_path %></p>
         <%end%>
-        <div class="buttons">
-          <button class="button"><%= link_to "New Post", new_post_path %> </button>
-          <button class="button">Logout</button>
-        </div>
+        <% if user_signed_in? %>
+            <div class="buttons">
+              <button class="button"><%= link_to "New Post", new_post_path %> </button>
+              <button class="button">Logout</button>
+            </div>
+        <% end %>
       </div>
-    <% flash.each do |name, msg|%>
-    <%content_tag(:div, msg,class: "alert")%>
-    <% end %>
+
+      		<% flash.each do |name, msg| %>
+      			<%= content_tag(:div, msg, class: "alert") %>
+      		<% end %>
 
     <%= yield %>
     </div>
